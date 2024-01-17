@@ -4,17 +4,32 @@ using UnityEngine;
 
 public class Missile : MonoBehaviour
 {
-    float speed = 15f;
+    public float speed = 15f;
+	Rigidbody2D rigidBody;
 
-    // Start is called before the first frame update
-    void Start()
+	// Start is called before the first frame update
+	void Start()
     {
+		rigidBody = gameObject.GetComponent<Rigidbody2D>();
 
-    }
+		Destroy(gameObject, 5);
+	}
 
-    // Update is called once per frame
-    void Update()
+	// Update is called once per frame
+	private void Update()
+	{
+		//transform.Translate(speed * Time.deltaTime, 0, 0);
+	}
+
+	private void FixedUpdate()
+	{
+		Vector2 direction = new Vector2(speed * Time.deltaTime, 0);
+		rigidBody.MovePosition(rigidBody.position + direction);
+	}
+
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        transform.Translate(speed * Time.deltaTime, 0, 0);
+		Destroy(gameObject);
+		Debug.Log(collision.gameObject);
     }
 }
